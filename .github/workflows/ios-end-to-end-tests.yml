@@ -1,0 +1,64 @@
+---
+name: iOS end-to-end tests
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  test:
+    if: github.event.pull_request.merged || github.event_name == 'workflow_dispatch'
+    name: End to end tests
+    runs-on: [self-hosted, macOS, ios-test]
+    env:
+      IOS_DEVICE_PIN_CODE: ${{ secrets.IOS_DEVICE_PIN_CODE }}
+      TEST_DEVICE_IDENTIFIER_UUID: ${{ secrets.TEST_DEVICE_IDENTIFIER_UUID }}
+      HAS_TIME_ACCOUNT_NUMBER: ${{ secrets.HAS_TIME_ACCOUNT_NUMBER }}
+      NO_TIME_ACCOUNT_NUMBER: ${{ secrets.NO_TIME_ACCOUNT_NUMBER }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure cache
+        uses: actions/cache@v4
+        with:
+          path: ios/${{ env.SOURCE_PACKAGES_PATH }}
+          key: ${{ runner.os }}-spm-${{ hashFiles('ios/**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Configure Rust
+        run: rustup target install aarch64-apple-ios aarch64-apple-ios-sim
+
+      - name: Configure Xcode project
+        run: |
+          cp Base.xcconfig.template Base.xcconfig
+          cp App.xcconfig.template App.xcconfig
+          cp PacketTunnel.xcconfig.template PacketTunnel.xcconfig
+          cp Api.xcconfig.template Api.xcconfig
+          cp UITests.xcconfig.template UITests.xcconfig
+          sed -i "" \
+            "/MULLVAD_IOS_DEVICE_PIN_CODE =/ s/= .*/= $IOS_DEVICE_PIN_CODE/" \
+            UITests.xcconfig
+          sed -i "" \
+            "/MULLVAD_TEST_DEVICE_IDENTIFIER_UUID =/ s/= .*/= $TEST_DEVICE_IDENTIFIER_UUID/" \
+            UITests.xcconfig
+          sed -i "" \
+            "/MULLVAD_HAS_TIME_ACCOUNT_NUMBER =/ s/= .*/= $HAS_TIME_ACCOUNT_NUMBER/" \
+            UITests.xcconfig
+          sed -i "" \
+            "/MULLVAD_NO_TIME_ACCOUNT_NUMBER =/ s/= .*/= $NO_TIME_ACCOUNT_NUMBER/" \
+            UITests.xcconfig
+        working-directory: ios/Configurations
+
+      - name: Run end-to-end-tests
+        run: |
+          set -o pipefail && env NSUnbufferedIO=YES xcodebuild \
+            -project MullvadVPN.xcodeproj \
+            -scheme MullvadVPNUITests \
+            -testPlan MullvadVPNUITestsSmoke \
+            -destination "platform=iOS,id=00008110-001241D836F1801E" \
+            test 2>&1 | xcbeautify
+        working-directory: ios/
