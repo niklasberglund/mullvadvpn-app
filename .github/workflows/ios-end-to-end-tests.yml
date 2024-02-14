@@ -1,5 +1,8 @@
 ---
 name: iOS end-to-end tests
+permissions:
+  contents: read
+  issues: write
 on:
   pull_request:
     types:
@@ -62,3 +65,19 @@ jobs:
             -destination "platform=iOS,id=00008110-001241D836F1801E" \
             test 2>&1 | xcbeautify
         working-directory: ios/
+
+      - name: Comment PR on test failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const issue_number = context.issue.number;
+            const run_id = context.runId;
+            const run_url = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${run_id}`;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: `🚨 End to end tests failed. Please check the [failed workflow run](${run_url}).`
+            });
