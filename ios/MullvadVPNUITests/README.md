@@ -10,7 +10,7 @@
  - `sudo installer -pkg yeetd-normal.pkg -target yeetd`
 6. Install Homebrew and dependencies
   - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
-  - `brew install xcbeautify wget`
+  - `brew install xcbeautify wget swiftlint`
 7. Install Ruby
   - `\curl -sSL https://get.rvm.io | bash`
 8. Install Rust and configure it

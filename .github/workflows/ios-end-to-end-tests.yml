@@ -65,7 +65,7 @@ jobs:
             -scheme MullvadVPNUITests \
             -testPlan MullvadVPNUITestsSmoke \
             -destination "platform=iOS,id=$TEST_DEVICE_UDID" \
-            test 2>&1 | xcbeautify
+            clean test 2>&1 | xcbeautify
         working-directory: ios/
 
       - name: Comment PR on test failure
