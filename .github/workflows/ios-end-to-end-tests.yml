@@ -18,9 +18,10 @@ jobs:
     runs-on: [self-hosted, macOS, ios-test]
     env:
       IOS_DEVICE_PIN_CODE: ${{ secrets.IOS_DEVICE_PIN_CODE }}
-      TEST_DEVICE_IDENTIFIER_UUID: ${{ secrets.TEST_DEVICE_IDENTIFIER_UUID }}
-      HAS_TIME_ACCOUNT_NUMBER: ${{ secrets.HAS_TIME_ACCOUNT_NUMBER }}
-      NO_TIME_ACCOUNT_NUMBER: ${{ secrets.NO_TIME_ACCOUNT_NUMBER }}
+      TEST_DEVICE_IDENTIFIER_UUID: ${{ secrets.IOS_TEST_DEVICE_IDENTIFIER_UUID }}
+      TEST_DEVICE_UDID: ${{ secrets.IOS_TEST_DEVICE_UDID }}
+      HAS_TIME_ACCOUNT_NUMBER: ${{ secrets.IOS_HAS_TIME_ACCOUNT_NUMBER }}
+      NO_TIME_ACCOUNT_NUMBER: ${{ secrets.IOS_NO_TIME_ACCOUNT_NUMBER }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -63,7 +64,7 @@ jobs:
             -project MullvadVPN.xcodeproj \
             -scheme MullvadVPNUITests \
             -testPlan MullvadVPNUITestsSmoke \
-            -destination "platform=iOS,id=00008110-001241D836F1801E" \
+            -destination "platform=iOS,id=$TEST_DEVICE_UDID" \
             test 2>&1 | xcbeautify
         working-directory: ios/
 
