@@ -26,14 +26,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure cache
-        uses: actions/cache@v4
-        with:
-          path: ios/${{ env.SOURCE_PACKAGES_PATH }}
-          key: ${{ runner.os }}-spm-${{ hashFiles('ios/**/Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-spm-
-
       - name: Configure Rust
         run: rustup target install aarch64-apple-ios aarch64-apple-ios-sim
 
@@ -61,8 +53,7 @@ jobs:
             -scheme MullvadVPNUITests \
             -testPlan MullvadVPNUITestsSmoke \
             -destination "platform=iOS,id=$TEST_DEVICE_UDID" \
-            -resultBundlePath test-results \
-            test 2>&1 | xcbeautify
+            test 2>&1 | xcbeautify --report junit --report-path test-report
         working-directory: ios/
 
       - name: Comment PR on test failure
@@ -80,3 +71,9 @@ jobs:
               issue_number: issue_number,
               body: `🚨 End to end tests failed. Please check the [failed workflow run](${run_url}).`
             });
+
+      - name: Store test report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: ios/test-report/junit.xml
