@@ -10,6 +10,10 @@ on:
       - closed
     branches:
       - main
+    paths:
+      - .github/workflows/ios-end-to-end-tests.yml
+      - ios/**/*.swift
+      - ios/**/*.xctestplan
   workflow_dispatch:
 jobs:
   test:
