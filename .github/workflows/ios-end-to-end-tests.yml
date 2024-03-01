@@ -12,8 +12,7 @@ on:
       - main
     paths:
       - .github/workflows/ios-end-to-end-tests.yml
-      - ios/**/*.swift
-      - ios/**/*.xctestplan
+      - ios/**
   workflow_dispatch:
 jobs:
   test:
