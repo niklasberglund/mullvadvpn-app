@@ -10,6 +10,8 @@ on:
       - closed
     branches:
       - main
+    paths:
+      - 'ios/**'
   workflow_dispatch:
 jobs:
   test:
@@ -57,7 +59,7 @@ jobs:
         working-directory: ios/
 
       - name: Comment PR on test failure
-        if: failure()
+        if: failure() && github.event_name != 'workflow_dispatch'
         uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
