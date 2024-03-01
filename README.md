@@ -1,4 +1,4 @@
-# Mullvad VPN desktop and mobile apppp
+# Mullvad VPN desktop and mobile appppppppppp
 
 Welcome to the Mullvad VPN client app source code repository.
 This is the VPN client software for the Mullvad VPN service.
