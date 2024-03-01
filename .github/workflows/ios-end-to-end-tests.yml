@@ -11,7 +11,20 @@ on:
     branches:
       - main
     paths:
-      - 'ios'
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/android-app.yml'
+      - '!android/**'
+      - '!audits/**'
+      - '!ci/**'
+      - '!dist-assets/**'
+      - '!docs/**'
+      - '!graphics/**'
+      - '!gui/**'
+      - '!test/**'
+      - '!scripts/**'
+      - '!windows/**'
+      - '!**/**.md'
   workflow_dispatch:
 jobs:
   test:
