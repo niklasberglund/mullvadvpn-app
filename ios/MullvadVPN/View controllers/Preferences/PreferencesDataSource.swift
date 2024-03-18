@@ -108,7 +108,7 @@ final class PreferencesDataSource: UITableViewDiffableDataSource<
             case .wireGuardObfuscationOff:
                 return .wireGuardObfuscationOff
             case .wireGuardObfuscationPort:
-                return .wireGuardObfuscationAutomatic
+                return .wireGuardObfuscationPort
             #if DEBUG
             case .quantumResistanceAutomatic:
                 return .quantumResistanceAutomatic

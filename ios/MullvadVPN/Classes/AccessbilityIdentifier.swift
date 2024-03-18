@@ -86,6 +86,7 @@ public enum AccessibilityIdentifier: String {
     case dnsSettings
     case wireGuardCustomPort
     case wireGuardObfuscationAutomatic
+    case wireGuardObfuscationPort
     case wireGuardObfuscationOff
     case wireGuardObfuscationOn
     case wireGuardPort
