@@ -10,7 +10,12 @@ import Foundation
 import XCTest
 
 class MigrationTests: BaseUITestCase {
+    let customDNSServerIPAddress = "123.123.123.123"
     let wireGuardPort = "4001"
+
+    override class func shouldUninstallAppInTeardown() -> Bool {
+        return false
+    }
 
     override func setUp() {
         super.setUp()
@@ -22,7 +27,8 @@ class MigrationTests: BaseUITestCase {
         app.launch()
     }
 
-    func testChangeSettings() {
+    func testChangeCustomDNSSettings() {
+        logoutIfLoggedIn()
         login(accountNumber: hasTimeAccountNumber)
 
         HeaderBar(app)
@@ -30,6 +36,42 @@ class MigrationTests: BaseUITestCase {
 
         SettingsPage(app)
             .tapVPNSettingsCell()
+
+        VPNSettingsPage(app)
+            .tapDNSSettingsCell()
+
+        DNSSettingsPage(app)
+            .tapEditButton()
+            .tapAddAServer()
+            .tapEnterIPAddressTextField()
+            .enterText(customDNSServerIPAddress)
+            .dismissKeyboard()
+            .tapUseCustomDNSSwitch()
+            .tapDoneButton()
+    }
+
+    func testChangeSettings() {
+        logoutIfLoggedIn()
+        login(accountNumber: hasTimeAccountNumber)
+
+        HeaderBar(app)
+            .tapSettingsButton()
+
+        SettingsPage(app)
+            .tapVPNSettingsCell()
+
+        VPNSettingsPage(app)
+            .tapDNSSettingsCell()
+
+        DNSSettingsPage(app)
+            .tapDNSContentBlockersHeaderExpandButton()
+            .tapBlockAdsSwitch()
+            .tapBlockTrackerSwitch()
+            .tapBlockMalwareSwitch()
+            .tapBlockAdultContentSwitch()
+            .tapBlockGamblingSwitch()
+            .tapBlockSocialMediaSwitch()
+            .tapBackButton()
 
         VPNSettingsPage(app)
             .tapWireGuardPortsExpandButton()
@@ -43,8 +85,21 @@ class MigrationTests: BaseUITestCase {
             .tapUDPOverTCPPortExpandButton()
             .tapUDPOverTCPPort80Cell()
             .tapUDPOverTCPPortExpandButton()
-            .tapQuantumResistantTunnelExpandButton()
-            .tapQuantumResistantTunnelOffCell()
+    }
+
+    func testVerifyCustomDNSSettingsStillChanged() {
+        HeaderBar(app)
+            .tapSettingsButton()
+
+        SettingsPage(app)
+            .tapVPNSettingsCell()
+
+        VPNSettingsPage(app)
+            .tapDNSSettingsCell()
+
+        DNSSettingsPage(app)
+            .verifyUseCustomDNSSwitchOn()
+            .verifyCustomDNSIPAddress(customDNSServerIPAddress)
     }
 
     func testVerifySettingsStillChanged() {
@@ -55,7 +110,31 @@ class MigrationTests: BaseUITestCase {
             .tapVPNSettingsCell()
 
         VPNSettingsPage(app)
+            .tapDNSSettingsCell()
+
+        DNSSettingsPage(app)
+            .tapDNSContentBlockersHeaderExpandButton()
+            .verifyBlockAdsSwitchOn()
+            .verifyBlockTrackerSwitchOn()
+            .verifyBlockMalwareSwitchOn()
+            .verifyBlockAdultContentSwitchOn()
+            .verifyBlockGamblingSwitchOn()
+            .verifyBlockSocialMediaSwitchOn()
+            .tapDNSContentBlockersHeaderExpandButton()
+            .verifyUseCustomDNSSwitchOn()
+            .verifyCustomDNSIPAddress(customDNSServerIPAddress)
+            .tapBackButton()
+
+        VPNSettingsPage(app)
             .tapWireGuardPortsExpandButton()
             .verifyCustomWireGuardPortSelected(portNumber: wireGuardPort)
+            .tapWireGuardPortsExpandButton()
+            .tapWireGuardObfuscationExpandButton()
+            .tapWireGuardObfuscationValueOnCell()
+            .verifyWireGuardObfuscationOnSelected()
+            .tapWireGuardObfuscationExpandButton()
+            .tapUDPOverTCPPortExpandButton()
+            .verifyUDPOverTCPPort80Selected()
+            .tapBackButton()
     }
 }

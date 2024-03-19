@@ -602,6 +602,7 @@
 		852969362B4E9724007EAD4C /* AccessbilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0B311D2B303A0D004B12E0 /* AccessbilityIdentifier.swift */; };
 		8529693A2B4F0238007EAD4C /* TermsOfServicePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852969392B4F0238007EAD4C /* TermsOfServicePage.swift */; };
 		8529693C2B4F0257007EAD4C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8529693B2B4F0257007EAD4C /* Alert.swift */; };
+		852A26462BA9C9CB006EB9C8 /* DNSSettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852A26452BA9C9CB006EB9C8 /* DNSSettingsPage.swift */; };
 		8532E6872B8CCED600ACECD1 /* ProblemReportSubmittedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8532E6862B8CCED600ACECD1 /* ProblemReportSubmittedPage.swift */; };
 		8542CE242B95F7B9006FCA14 /* VPNSettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542CE232B95F7B9006FCA14 /* VPNSettingsPage.swift */; };
 		85557B0E2B591B2600795FE1 /* FirewallAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85557B0D2B591B2600795FE1 /* FirewallAPIClient.swift */; };
@@ -1829,6 +1830,7 @@
 		852969382B4ED818007EAD4C /* UITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UITests.xcconfig; sourceTree = "<group>"; };
 		852969392B4F0238007EAD4C /* TermsOfServicePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServicePage.swift; sourceTree = "<group>"; };
 		8529693B2B4F0257007EAD4C /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		852A26452BA9C9CB006EB9C8 /* DNSSettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSSettingsPage.swift; sourceTree = "<group>"; };
 		8532E6862B8CCED600ACECD1 /* ProblemReportSubmittedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemReportSubmittedPage.swift; sourceTree = "<group>"; };
 		8542CE232B95F7B9006FCA14 /* VPNSettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNSettingsPage.swift; sourceTree = "<group>"; };
 		85557B0D2B591B2600795FE1 /* FirewallAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirewallAPIClient.swift; sourceTree = "<group>"; };
@@ -3542,6 +3544,7 @@
 				852969392B4F0238007EAD4C /* TermsOfServicePage.swift */,
 				850201DE2B5040A500EF8C96 /* TunnelControlPage.swift */,
 				8542CE232B95F7B9006FCA14 /* VPNSettingsPage.swift */,
+				852A26452BA9C9CB006EB9C8 /* DNSSettingsPage.swift */,
 			);
 			path = Pages;
 			sourceTree = "<group>";
@@ -5506,6 +5509,7 @@
 				855D9F5B2B63E56B00D7C64D /* ProblemReportPage.swift in Sources */,
 				8529693A2B4F0238007EAD4C /* TermsOfServicePage.swift in Sources */,
 				8532E6872B8CCED600ACECD1 /* ProblemReportSubmittedPage.swift in Sources */,
+				852A26462BA9C9CB006EB9C8 /* DNSSettingsPage.swift in Sources */,
 				850201DF2B5040A500EF8C96 /* TunnelControlPage.swift in Sources */,
 				8542CE242B95F7B9006FCA14 /* VPNSettingsPage.swift in Sources */,
 				85557B1E2B5FB8C700795FE1 /* HeaderBar.swift in Sources */,

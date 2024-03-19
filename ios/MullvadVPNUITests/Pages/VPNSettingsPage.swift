@@ -28,6 +28,14 @@ class VPNSettingsPage: Page {
         return self
     }
 
+    @discardableResult func tapDNSSettingsCell() -> Self {
+        app.tables
+            .cells[AccessibilityIdentifier.dnsSettings]
+            .tap()
+
+        return self
+    }
+
     @discardableResult func tapWireGuardPortsExpandButton() -> Self {
         cellExpandButton(AccessibilityIdentifier.wireGuardPortsCell)
             .tap()
@@ -124,6 +132,24 @@ class VPNSettingsPage: Page {
         }
 
         XCTAssertEqual(textFieldValue, portNumber)
+        return self
+    }
+
+    @discardableResult func verifyWireGuardObfuscationOnSelected() -> Self {
+        let onCell = app.cells[AccessibilityIdentifier.wireGuardObfuscationOn]
+        XCTAssertTrue(onCell.isSelected)
+        return self
+    }
+
+    @discardableResult func verifyUDPOverTCPPort80Selected() -> Self {
+        let cell = app.cells["\(AccessibilityIdentifier.wireGuardObfuscationPort)80"]
+        XCTAssertTrue(cell.isSelected)
+        return self
+    }
+
+    @discardableResult func verifyQuantumResistantTunnelOffSelected() -> Self {
+        let cell = app.cells[AccessibilityIdentifier.quantumResistanceOff]
+        XCTAssertTrue(cell.isSelected)
         return self
     }
 }

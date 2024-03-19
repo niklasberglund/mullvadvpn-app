@@ -28,8 +28,12 @@ class RelayTests: LoggedInWithTimeUITestCase {
 
         SettingsPage(app)
             .tapVPNSettingsCell()
+
+        VPNSettingsPage(app)
             .tapDNSSettingsCell()
-            .tapDNSContentBlockingHeaderExpandButton()
+
+        DNSSettingsPage(app)
+            .tapDNSContentBlockersHeaderExpandButton()
             .tapBlockAdsSwitch()
             .swipeDownToDismissModal()
 
