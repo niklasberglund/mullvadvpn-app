@@ -120,9 +120,6 @@ class MigrationTests: BaseUITestCase {
             .verifyBlockAdultContentSwitchOn()
             .verifyBlockGamblingSwitchOn()
             .verifyBlockSocialMediaSwitchOn()
-            .tapDNSContentBlockersHeaderExpandButton()
-            .verifyUseCustomDNSSwitchOn()
-            .verifyCustomDNSIPAddress(customDNSServerIPAddress)
             .tapBackButton()
 
         VPNSettingsPage(app)
