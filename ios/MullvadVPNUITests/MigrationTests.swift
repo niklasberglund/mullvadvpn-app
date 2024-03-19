@@ -9,10 +9,22 @@
 import Foundation
 import XCTest
 
-class MigrationTests: LoggedInWithTimeUITestCase {
+class MigrationTests: BaseUITestCase {
     let wireGuardPort = "4001"
 
+    override func setUp() {
+        super.setUp()
+
+        agreeToTermsOfServiceIfShown()
+
+        // Relaunch app so that tests start from a deterministic state
+        app.terminate()
+        app.launch()
+    }
+
     func testChangeSettings() {
+        login(accountNumber: hasTimeAccountNumber)
+
         HeaderBar(app)
             .tapSettingsButton()
 
@@ -33,7 +45,6 @@ class MigrationTests: LoggedInWithTimeUITestCase {
             .tapUDPOverTCPPortExpandButton()
             .tapQuantumResistantTunnelExpandButton()
             .tapQuantumResistantTunnelOffCell()
-
     }
 
     func testVerifySettingsStillChanged() {
