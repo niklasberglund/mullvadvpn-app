@@ -14,11 +14,8 @@ on:
       - .github/workflows/ios-end-to-end-tests.yml
       - ios/**
   workflow_dispatch:
-    inputs:
-      xcode_test_plan:
-        description: 'The Xcode test plan to run'
-        required: false
-        default: 'MullvadVPNUITestsSmoke'
+  schedule:
+    - cron: '0 0 * * *'
 jobs:
   test:
     if: github.event.pull_request.merged || github.event_name == 'workflow_dispatch'
@@ -31,10 +28,20 @@ jobs:
       - name: Configure Rust
         run: rustup target install aarch64-apple-ios aarch64-apple-ios-sim
 
+      - name: Select test plan to execute
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "XCODE_TEST_PLAN=MullvadVPNUITestsSmoke" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "schedule" ]]; then
+            echo "XCODE_TEST_PLAN=MullvadVPNUITestsAll" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "XCODE_TEST_PLAN=MullvadVPNUITestsAll" >> $GITHUB_ENV
+          fi
+
       - name: iOS end to end tests action
         uses: ./.github/actions/ios-end-to-end-tests
         with:
-          xcode_test_plan: ${{ github.event.inputs.xcode_test_plan }}
+          xcode_test_plan: ${{ env.XCODE_TEST_PLAN }}
           ios_device_pin_code: ${{ secrets.IOS_DEVICE_PIN_CODE }}
           test_device_identifier_uuid: ${{ secrets.TEST_DEVICE_IDENTIFIER_UUID }}
           has_time_account_number: ${{ secrets.HAS_TIME_ACCOUNT_NUMBER }}
