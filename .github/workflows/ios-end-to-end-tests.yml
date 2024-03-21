@@ -45,7 +45,7 @@ jobs:
           test_device_identifier_uuid: ${{ secrets.TEST_DEVICE_IDENTIFIER_UUID }}
           has_time_account_number: ${{ secrets.HAS_TIME_ACCOUNT_NUMBER }}
           no_time_account_number: ${{ secrets.NO_TIME_ACCOUNT_NUMBER }}
-          test_device_udid: ${{ secrets.TEST_DEVICE_UDID }}
+          test_device_udid: ${{ secrets.IOS_TEST_DEVICE_UDID }}
 
       - name: Comment PR on test failure
         if: failure() && github.event_name != 'workflow_dispatch'
