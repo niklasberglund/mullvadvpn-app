@@ -25,11 +25,7 @@ inputs:
     steps:
       - name: Configure Xcode project
         run: |
-          for file in *.xcconfig.template ; do cp $file ${file//.template/} ; done
-          sed -i "" "/MULLVAD_IOS_DEVICE_PIN_CODE =/ s/= .*/= ${{ inputs.ios_device_pin_code }}/" UITests.xcconfig
-          sed -i "" "/MULLVAD_TEST_DEVICE_IDENTIFIER_UUID =/ s/= .*/= ${{ inputs.test_device_identifier_uuid }}/" UITests.xcconfig
-          sed -i "" "/MULLVAD_HAS_TIME_ACCOUNT_NUMBER =/ s/= .*/= ${{ inputs.has_time_account_number }}/" UITests.xcconfig
-          sed -i "" "/MULLVAD_NO_TIME_ACCOUNT_NUMBER =/ s/= .*/= ${{ inputs.no_time_account_number }}/" UITests.xcconfig
+          echo '${{ inputs.ios_device_pin_code }}'
         working-directory: ios/Configurations
 
       - name: Run end-to-end-tests
