@@ -30,6 +30,7 @@ runs:
         sed -i "" "/MULLVAD_TEST_DEVICE_IDENTIFIER_UUID =/ s/= .*/= $TEST_DEVICE_IDENTIFIER_UUID/" UITests.xcconfig
         sed -i "" "/MULLVAD_HAS_TIME_ACCOUNT_NUMBER =/ s/= .*/= $HAS_TIME_ACCOUNT_NUMBER/" UITests.xcconfig
         sed -i "" "/MULLVAD_NO_TIME_ACCOUNT_NUMBER =/ s/= .*/= $NO_TIME_ACCOUNT_NUMBER/" UITests.xcconfig
+      shell: bash
       working-directory: ios/Configurations
       env:
         IOS_DEVICE_PIN_CODE: ${{ inputs.ios_device_pin_code }}
@@ -45,6 +46,7 @@ runs:
           -testPlan $XCODE_TEST_PLAN \
           -destination "platform=iOS,id=$TEST_DEVICE_UDID" \
           test 2>&1 | xcbeautify --report junit --report-path test-report
+      shell: bash
       working-directory: ios/
       env:
         XCODE_TEST_PLAN: ${{ inputs.xcode_test_plan }}
