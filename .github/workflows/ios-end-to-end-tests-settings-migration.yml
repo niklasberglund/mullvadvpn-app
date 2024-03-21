@@ -33,7 +33,7 @@
               test_device_udid: ${{ secrets.TEST_DEVICE_UDID }}
               xcode_test_plan: 'MullvadVPNUITestsChangeDNSSettings'
           
-          - name: Store test report artifact
+          - name: Store test change DNS settings test report artifact
             if: always()
             uses: actions/upload-artifact@v4
             with:
@@ -53,3 +53,9 @@
               test_device_udid: ${{ secrets.TEST_DEVICE_UDID }}
               xcode_test_plan: 'MullvadVPNUITestsVerifyDNSSettingsStillChanged'
     
+          - name: Store test verify DNS settings test report artifact
+            if: always()
+            uses: actions/upload-artifact@v4
+            with:
+              name: test-report-verify-dns-settings
+              path: ios/test-report/junit.xml
