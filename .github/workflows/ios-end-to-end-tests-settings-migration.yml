@@ -1,0 +1,55 @@
+---
+    name: iOS settings migration from old release to current version end-to-end tests
+    permissions:
+      contents: read
+    on:
+      workflow_dispatch:
+    jobs:
+      test:
+        name: Settings migration end to end tests
+        runs-on: [self-hosted, macOS, ios-test]
+        env:
+          IOS_DEVICE_PIN_CODE: ${{ secrets.IOS_DEVICE_PIN_CODE }}
+          TEST_DEVICE_IDENTIFIER_UUID: ${{ secrets.IOS_TEST_DEVICE_IDENTIFIER_UUID }}
+          TEST_DEVICE_UDID: ${{ secrets.IOS_TEST_DEVICE_UDID }}
+          HAS_TIME_ACCOUNT_NUMBER: ${{ secrets.IOS_HAS_TIME_ACCOUNT_NUMBER_PRODUCTION }}
+          NO_TIME_ACCOUNT_NUMBER: ${{ secrets.IOS_NO_TIME_ACCOUNT_NUMBER_PRODUCTION }}
+        steps:
+          - name: Configure Rust
+            run: rustup target install aarch64-apple-ios aarch64-apple-ios-sim
+        
+          - name: Checkout old repository to get old app version
+            uses: actions/checkout@v4
+            with:
+              ref: 'refs/tags/ios-2023.6'
+        
+          - name: Change DNS settings on old app version
+            uses: ./.github/actions/ios-end-to-end-tests
+            with:
+              ios_device_pin_code: ${{ secrets.IOS_DEVICE_PIN_CODE }}
+              test_device_identifier_uuid: ${{ secrets.TEST_DEVICE_IDENTIFIER_UUID }}
+              has_time_account_number: ${{ secrets.HAS_TIME_ACCOUNT_NUMBER }}
+              no_time_account_number: ${{ secrets.NO_TIME_ACCOUNT_NUMBER }}
+              test_device_udid: ${{ secrets.TEST_DEVICE_UDID }}
+              xcode_test_plan: 'MullvadVPNUITestsChangeDNSSettings'
+          
+          - name: Store test report artifact
+            if: always()
+            uses: actions/upload-artifact@v4
+            with:
+              name: test-report-change-dns-settings
+              path: ios/test-report/junit.xml
+          
+          - name: Checkout repository to get the current app version
+            uses: actions/checkout@v4
+
+          - name: Verify DNS settings still changed on current app version
+            uses: ./.github/actions/ios-end-to-end-tests
+            with:
+              ios_device_pin_code: ${{ secrets.IOS_DEVICE_PIN_CODE }}
+              test_device_identifier_uuid: ${{ secrets.TEST_DEVICE_IDENTIFIER_UUID }}
+              has_time_account_number: ${{ secrets.HAS_TIME_ACCOUNT_NUMBER }}
+              no_time_account_number: ${{ secrets.NO_TIME_ACCOUNT_NUMBER }}
+              test_device_udid: ${{ secrets.TEST_DEVICE_UDID }}
+              xcode_test_plan: 'MullvadVPNUITestsVerifyDNSSettingsStillChanged'
+    
